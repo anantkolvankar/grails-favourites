@@ -14,7 +14,7 @@ class FavouriteGrailsPlugin {
     def title = "Favourite Plugin" // Headline display name of the plugin
     def author = "Anant Anil Kolvankar"
     def authorEmail = "ani.kolvankar@gmail.com"
-    def description = '''\ 
+    def description = ''' 
     Adds support for favourites. Mark up any of your domain classes as having favourites.
 '''
 
@@ -47,7 +47,53 @@ class FavouriteGrailsPlugin {
     }
 
     def doWithDynamicMethods = { ctx ->
-       
+        for(domainClass in application.domainClasses) {
+            if(AddToFavourites.class.isAssignableFrom(domainClass.clazz)) {
+                domainClass.clazz.metaClass {
+                    
+                    addToFavouritesOf { user ->
+                            if(delegate.id == null) throw println("You must save the entity [${delegate}] before calling addToFavouritesOf")
+                            
+                            def userClass = user.class.name
+                            def i = userClass.indexOf('_$$_javassist')
+                            if(i>-1)
+                                userClass = userClass[0..i-1]
+                            
+                            //check if delegate already added into favourites
+                           def userId = user.id
+                           def alreadyIntoFavourite=Favourite.find("from Favourite as f where f.userId=? and f.userClass=? and f.favouriteId=? and favouriteClass=?", [userId,userClass,delegate.id,delegate.class.name])
+
+                            if(alreadyIntoFavourite){
+
+                                println "Already Into Favourites"   
+                            }else{
+
+                                def f = new Favourite(userId:user.id, userClass:userClass, favouriteId:delegate.id, favouriteClass:delegate.class.name)
+                                if(!f.validate()) {
+                                    throw println("Cannot create favourite for arguments $user, they are invalid.")
+                                }
+                                f.save()
+                                
+                            }
+                            return delegate
+                    }
+
+                    removeFromFavouritesOf { user ->
+                         if(delegate.id == null) throw println("You must save the entity [${delegate}] before calling removeFromFavouritesOf")
+                         def userClass = user.class.name
+                         def i = userClass.indexOf('_$$_javassist')
+                         if(i>-1)
+                            userClass = userClass[0..i-1]
+                        
+                        def userId = user.id
+
+                        def favouriteToRemove=Favourite.find("from Favourite as f where f.userId=? and f.userClass=? and f.favouriteId=? and favouriteClass=?", [userId,userClass,delegate.id,delegate.class.name])
+
+                        favouriteToRemove.delete()
+                    }
+                }
+            }
+        }    
     }
 
     def doWithApplicationContext = { ctx ->
