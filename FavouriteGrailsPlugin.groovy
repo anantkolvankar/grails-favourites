@@ -77,6 +77,15 @@ class FavouriteGrailsPlugin {
                             }
                             return delegate
                     }
+                    getFavourites = {->
+                        def instance = delegate
+                        if(instance.id != null) {
+                            def allUserFavorites=Favourite.findAll("from Favourite as f where f.userId=? and f.userClass=?", [instance.id,instance.class.name])
+                            return allUserFavorites
+                        } else {
+                            return Collections.EMPTY_LIST
+                        }
+                    }
 
                     removeFromFavouritesOf { user ->
                          if(delegate.id == null) throw println("You must save the entity [${delegate}] before calling removeFromFavouritesOf")
