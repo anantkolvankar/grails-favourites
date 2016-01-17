@@ -19,7 +19,7 @@ class FavouriteGrailsPlugin {
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/favourite"
+    def documentation = "https://github.com/anantkolvankar/grails-favourites"
 
     // Extra (optional) plugin metadata
 
