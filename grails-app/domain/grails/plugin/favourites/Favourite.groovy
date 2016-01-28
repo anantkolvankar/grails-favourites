@@ -1,4 +1,4 @@
-package org.grails.favourites
+package grails.plugin.favourites
 
 class Favourite {
 

@@ -1,5 +1,6 @@
-import org.grails.favourites.*
-import grails.util.*
+import grails.plugin.favourites.AddToFavourites
+import grails.plugin.favourites.Favourite
+
 class FavouriteGrailsPlugin {
     def version = "0.1"
     def grailsVersion = "2.4 > *"
