@@ -11,7 +11,7 @@ Implement the ***AddToFavourites*** interface:<br/>
 
 *Product.groovy*
 ```groovy
-import org.grails.favourites.*
+import grails.plugin.favourites.AddToFavourites
 
 class Product implements AddToFavourites{
 	String name
@@ -20,7 +20,7 @@ class Product implements AddToFavourites{
 
 *User.groovy*
 ```groovy
-import org.grails.favourites.*
+import grails.plugin.favourites.AddToFavourites
 
 class User implements AddToFavourites{
 }
