@@ -1,1 +1,15 @@
-target/
+*.iml
+*.ipr
+*.iws
+*.log
+.DS_Store
+/.classpath
+/.idea
+/.project
+/.settings
+/grails-*.zip
+/grails-*.zip.sha1
+/plugin.xml
+/target
+/target-eclipse
+/web-app

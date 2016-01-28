@@ -7,27 +7,26 @@ class Favourite {
 	Long favouriteId
 	String favouriteClass
 
-    static constraints = {
-    	favouriteClass blank:false
+	static constraints = {
+		favouriteClass blank:false
 		favouriteId min:0L
-    	userClass blank:false
-		userId min:0L    
-    }
+		userClass blank:false
+		userId min:0L
+	}
 
-    def getFavourite() {
+	def getFavourite() {
 		// handle proxied class names
-		def i = favouriteClass.indexOf('_$$_javassist')
-		if(i>-1)
-			favouriteClass = favouriteClass[0..i-1]
+		if (favouriteClass.contains('_$$_javassist')) {
+			favouriteClass -= '_$$_javassist'
+		}
 		getClass().classLoader.loadClass(favouriteClass).get(favouriteId)
 	}
 
-
-    def getUser() {
+	def getUser() {
 		// handle proxied class names
-		def i = userClass.indexOf('_$$_javassist')
-		if(i>-1)
-			userClass = userClass[0..i-1]
+		if (userClass.contains('_$$_javassist')) {
+			userClass -= '_$$_javassist'
+		}
 		getClass().classLoader.loadClass(userClass).get(userId)
 	}
 }
