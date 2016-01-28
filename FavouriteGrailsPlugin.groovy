@@ -8,6 +8,9 @@ class FavouriteGrailsPlugin {
     def authorEmail = "ani.kolvankar@gmail.com"
     def description = 'Adds support for favourites. Mark up any of your domain classes as having favourites.'
     def documentation = "https://github.com/anantkolvankar/grails-favourites"
+    def license = "APACHE"
+    def issueManagement = [url: 'https://github.com/anantkolvankar/grails-favourites/issues']
+    def scm = [ url: 'https://github.com/anantkolvankar/grails-favourites']
 
     def doWithDynamicMethods = { ctx ->
         for(domainClass in application.domainClasses) {
